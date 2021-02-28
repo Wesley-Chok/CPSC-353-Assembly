@@ -25,7 +25,7 @@
 ;  Date program began: 2021-Feb-22
 ;  Date of last update: 2021-Feb-28
 ;  Date of reorganization of comments: 2021-Feb-28
-;  Files in this program: rectangle.cpp, perimeter.asm
+;  Files in this program: Second_degree.c, Quadratic.asm, isfloat.cpp, Quad_library, isdigit.cpp
 ;  Status: Finished.  The program was tested extensively with no errors in Xubuntu19.04.
 ;
 ;This file
