@@ -45,15 +45,15 @@
 #include <stdlib.h> 
 #include <stdbool.h>
 
-extern float _first();
+extern double _first();
 extern bool isfloat();
 
 int main (int argc, char* argv[])
 {
-    float result = 0.0;
+    double result = 0.0;
     printf("Welcome to Root Calculator.\n");
     printf("Programmed by Wesley Chok, Professional Programmer.\n");
     result = _first();
-    printf("The main driver received %lf and has decided to keep it.\n", result);
+    printf("The main driver received %1.5f and has decided to keep it.\n", result);
     printf("Now 0.0 will be returned to the operating system. Bye.\n");
 }
