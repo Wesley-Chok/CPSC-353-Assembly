@@ -63,7 +63,7 @@ section .bss
 
 section .text
 
-_first
+_first:
     ;Back up the registers necessary to define them.
     push rbp
     mov  rbp,rsp
@@ -175,7 +175,14 @@ invalid:
     mov rdi, invalidPrompt              ;"This input is not valid, try again"
     call printf
 
-    jmp endInvalid                      ;Jump to endInvalid to end the code
+    mov r8, 0                          ;set r8 equal to 0
+    cvtsi2sd xmm11, r8                 ;convert r8 into a scalar double precision floating-point
+    movsd xmm0, xmm11                  
+    pop rax
+    pop rax
+    pop rax
+
+    jmp endOfProgram                      ;Jump to endInvalid to end the code
 ;============= End section for invalid jump======================================================================================================================================
 
 
@@ -185,7 +192,14 @@ invalidZero:
     mov rdi, invalidZeroPrompt          ;"This is not a quadratic equation. You may run this program again"
     call printf
 
-    jmp endInvalid
+    mov r8, 0                          ;set r8 equal to 0
+    cvtsi2sd xmm11, r8                 ;convert r8 into a scalar double precision floating-point
+    movsd xmm0, xmm11                  
+    pop rax
+    pop rax
+    pop rax
+
+    jmp endOfProgram
 ;============= End section for invalid zero jump=================================================================================================================================
 
 
@@ -203,7 +217,7 @@ equationOutput:
     mov rdi, equationPrompt            ;"Thank you. The equation is %5.3lf x^2 + %5.3lf x + %5.3lf = 0.0"
     movsd xmm0, xmm5                   ;To output our a coefficient
     movsd xmm1, xmm6                   ;To output our b coefficient
-    movsd xmm2, xmm7                   ;To otuptu our c coefficient
+    movsd xmm2, xmm7                   ;To output our c coefficient
     call printf
     pop rax
     jmp calculations                   ;Jump to calculations to calculate the root
@@ -233,18 +247,18 @@ twoRoot:
     mov r9, -1                         ;set r9 equal to -1
     cvtsi2sd xmm9, r9                  ;convert r9 into a scalar double-precision floating-point
     mov r8, 2                          ;set r8 equal to 2
-    cvtsi2sd xmm4, r8                  ;convert r8 into a scalar double-precision floating-point
+    cvtsi2sd xmm11, r8                  ;convert r8 into a scalar double-precision floating-point
     sqrtsd xmm12, xmm6                 ;square root the output of b^2-4ac and store in xmm12
     sqrtsd xmm13, xmm6                 ;square root the output of b^2-4ac and store in xmm13
     mulsd xmm9, xmm3                   ;multiply b and -1
     movsd xmm15, xmm9
     addsd xmm9, xmm12                  ;add b * -1 and the result of sqrt(b^2-4ac)
     subsd xmm15, xmm13                 ;subtract b * -1 and the results of sqrt(b^2-4ac)
-    mulsd xmm4, xmm8                   ;multiply 2 and a
-    movsd xmm14, xmm4                  ;backup copy for 2*a
-    divsd xmm4, xmm9                   ;divide (b * -1 + sqrt(b^2-4ac)) over 2 * a
+    mulsd xmm11, xmm8                   ;multiply 2 and a
+    movsd xmm14, xmm11                  ;backup copy for 2*a
+    divsd xmm11, xmm9                   ;divide (b * -1 + sqrt(b^2-4ac)) over 2 * a
     divsd xmm15, xmm14                 ;divide (b * -1 - sqrt(b^2-4ac)) over 2 * a
-    movsd xmm0, xmm4                   
+    movsd xmm0, xmm11                   
     movsd xmm1, xmm15
 
     pop rax
@@ -265,15 +279,13 @@ oneRoot:
     mov r9, -1                         ;set r9 equal to -1
     cvtsi2sd xmm9, r9                  ;convert r9 into a scalar double-precision floating-point
     mov r8, 2                          ;set r8 equal to 2
-    cvtsi2sd xmm4, r8                  ;convert r8 into a scalar double-precision floating-point
+    cvtsi2sd xmm11, r8                  ;convert r8 into a scalar double-precision floating-point
 
-    mulsd xmm4, xmm8                   ;multiply 2 and a
+    mulsd xmm11, xmm8                   ;multiply 2 and a
     mulsd xmm9, xmm3                   ;multiply b and -1
-    divsd xmm9, xmm4                   ;divide b*-1 over 2*a
-    movsd xmm4, xmm9                   ;move register xmm9 to xmm4 for consistency
-    movsd xmm0, xmm4
-    movsd xmm15, xmm0
-    movsd xmm0, xmm15                    
+    divsd xmm9, xmm11                   ;divide b*-1 over 2*a
+    movsd xmm11, xmm9                   ;move register xmm9 to xmm11 for consistency
+    movsd xmm0, xmm11                  
 
     mov rax,1
     call show_one_root                 ;call show_one_root to output 1 root
@@ -293,16 +305,6 @@ noRoot:
     call show_no_root                  ;Call show_no_root to output no root(s)
 ;============= End section for noRoot jump===========================================================================================================================================
 
-
-;============= Begin section for endInvalid jump=====================================================================================================================================
-endInvalid: 
-    mov r8, 0                          ;set r8 equal to 0
-    cvtsi2sd xmm8, r8                  ;conver r9 into a scalar double-precision floating-point
-
-    movsd xmm0, xmm8
-;============= End section for endInvalid jump=======================================================================================================================================
-
-
 ;============= Begin section for endOfProgram jump===================================================================================================================================
 endOfProgram:
     mov rax, 0
@@ -312,7 +314,7 @@ endOfProgram:
     pop rax
 
 
-    movsd xmm0, xmm15
+    movsd xmm0, xmm11
 ;============= End section for endOfProgram jump======================================================================================================================================
 
 
