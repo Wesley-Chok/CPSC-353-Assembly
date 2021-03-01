@@ -58,6 +58,7 @@ section .data
     equationPrompt db "Thank you. The equation is %5.3lfx^2 + %5.3lfx + %5.3lf = 0.0",10,0
     goodbye db "One of these roots will be returned to the caller function",10,0
     validPrompt db "You arrived at valid sir!",10,0
+    number db "This is the root sir: %5.3lf",10,0
 section .bss
 
 section .text
@@ -102,7 +103,6 @@ _first
     push qword -3
     mov rax, 0
     mov rdi, three_string_format         ;"%s%s%s"
-    sub rsp, 1024
     mov rsi, rsp
     mov rdx, rsp
     add rdx, 8
@@ -191,8 +191,6 @@ invalidZero:
 
 ;============= Begin section for valid jump======================================================================================================================================
 valid:
-    sub rsp, 1024
-    add rsp, 1024
     pop rax
     jmp equationOutput                 ;Jump to equationOutput to output the quadratic equation
 ;============= Begin section for valid jump======================================================================================================================================
@@ -216,8 +214,6 @@ equationOutput:
 calculations:
     mov r10, 4                         ;set r10 equal to 4
     cvtsi2sd xmm10, r10                ;convert r10 into a scalar double-precision floating-point
-    ;mov r11, 0                         ;set r11 equal to 0
-    ;cvtsi2sd xmm11, r11                ;convert r11 into a scalar double-precision floating-point
     movsd xmm3, xmm6                   ;Store b in register xmm3
     mulsd xmm6, xmm6                   ;multiply b*b to simulate b^2
     movsd xmm8, xmm5                   ;Backup copy for a
@@ -251,10 +247,13 @@ twoRoot:
     movsd xmm0, xmm4                   
     movsd xmm1, xmm15
 
-    mov rax, 2
+    pop rax
+    pop rax
+
+    mov rax, 1
     call show_two_root                 ;call show_two_root to output our 2 roots
     pop rax
-    pop rax
+
 
     jmp endOfProgram                   ;Jump to endOfProgram to end the program
 ;============= End section for twoRoot jump========================================================================================================================================
@@ -272,11 +271,17 @@ oneRoot:
     mulsd xmm9, xmm3                   ;multiply b and -1
     divsd xmm9, xmm4                   ;divide b*-1 over 2*a
     movsd xmm4, xmm9                   ;move register xmm9 to xmm4 for consistency
-    movsd xmm0, xmm4                    
+    movsd xmm0, xmm4
+    movsd xmm15, xmm0
+    movsd xmm0, xmm15                    
 
     mov rax,1
     call show_one_root                 ;call show_one_root to output 1 root
     pop rax
+    pop rax
+    pop rax
+
+
 
     jmp endOfProgram                   ;Jump to endOfProgram to end the program
 ;============= End section for oneRoot jump=========================================================================================================================================
@@ -300,16 +305,16 @@ endInvalid:
 
 ;============= Begin section for endOfProgram jump===================================================================================================================================
 endOfProgram:
-    mov rax, 1
+    mov rax, 0
     mov rdi, goodbye                   ;"One of these roots will be returned to the caller function"
     call printf
 
     pop rax
 
-    movsd xmm0, xmm4
-    add rsp, 1024
+
+    movsd xmm0, xmm15
 ;============= End section for endOfProgram jump======================================================================================================================================
-    
+
 
     ;Restore the registers that were backed up and defined
     popf                                                        ;Restoring rflags
