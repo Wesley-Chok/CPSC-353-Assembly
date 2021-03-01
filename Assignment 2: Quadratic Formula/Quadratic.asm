@@ -53,7 +53,8 @@ section .data
     inputCoefficientPrompt db "Please enter the three floating point coefficients of a quadratic equation in the order a,b,c separated by the end of line character.",10,0
     string_format db "%s",0
     three_string_format db "%s%s%s", 0
-    invalidPrompt db "This input is not valid",10,0
+    invalidPrompt db "This input is not valid. You may run this program again.",10,0
+    invalidZeroPrompt db "This is not a quadratic equation. You may run this program again",10,0
     equationPrompt db "Thank you. The equation is %5.3lfx^2 + %5.3lfx + %5.3lf = 0.0",10,0
     goodbye db "One of these roots will be returned to the caller function",10,0
     validPrompt db "You arrived at valid sir!",10,0
@@ -101,6 +102,7 @@ _first
     push qword -3
     mov rax, 0
     mov rdi, three_string_format         ;"%s%s%s"
+    sub rsp, 1024
     mov rsi, rsp
     mov rdx, rsp
     add rdx, 8
@@ -110,8 +112,6 @@ _first
     movsd xmm6, [rsp+8]
     movsd xmm7, [rsp+16]
     call scanf
-    sub rsp, 1024
-    add rsp, 1024
     ;============= End section to input the coefficients==========================================================================================================================
 
 
@@ -128,6 +128,11 @@ _first
     mov rdi, rsp
     call atof                           ;Call atof() to convert string to float
     movsd xmm5, xmm0                    ;Move float conversion output to xmm5
+
+    mov r11, 0                          ;set r11 equal to 0               
+    cvtsi2sd xmm11, r11                 ;convert r11 into a scalar double precision floating-point
+    ucomisd xmm5, xmm11                 ;Compare a and 0
+    je invalidZero                      ;If a is equal to 0 then jump to invalidZero
 
     ;check the user input
     mov rax, 0
@@ -159,6 +164,7 @@ _first
     call atof                           ;Call atof() to convert string to float
     movsd xmm7, xmm0                    ;Move float conversion output to xmm7
 
+
     jmp valid                           ;Jump to valid
     ;============= End section to check inputs and convert to float==============================================================================================================
 
@@ -171,6 +177,16 @@ invalid:
 
     jmp endInvalid                      ;Jump to endInvalid to end the code
 ;============= End section for invalid jump======================================================================================================================================
+
+
+;============= Begin section for invalid zero jump=================================================================================================================================
+invalidZero:
+    mov rax, 1
+    mov rdi, invalidZeroPrompt          ;"This is not a quadratic equation. You may run this program again"
+    call printf
+
+    jmp endInvalid
+;============= End section for invalid zero jump=================================================================================================================================
 
 
 ;============= Begin section for valid jump======================================================================================================================================
@@ -200,8 +216,8 @@ equationOutput:
 calculations:
     mov r10, 4                         ;set r10 equal to 4
     cvtsi2sd xmm10, r10                ;convert r10 into a scalar double-precision floating-point
-    mov r11, 0                         ;set r11 equal to 0
-    cvtsi2sd xmm11, r11                ;convert r11 into a scalar double-precision floating-point
+    ;mov r11, 0                         ;set r11 equal to 0
+    ;cvtsi2sd xmm11, r11                ;convert r11 into a scalar double-precision floating-point
     movsd xmm3, xmm6                   ;Store b in register xmm3
     mulsd xmm6, xmm6                   ;multiply b*b to simulate b^2
     movsd xmm8, xmm5                   ;Backup copy for a
@@ -291,6 +307,7 @@ endOfProgram:
     pop rax
 
     movsd xmm0, xmm4
+    add rsp, 1024
 ;============= End section for endOfProgram jump======================================================================================================================================
     
 
