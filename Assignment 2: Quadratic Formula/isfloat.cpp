@@ -16,21 +16,6 @@
 //The second half confers certain open source freedoms to the users of the software.  The four freedoms of open source make
 //this kind of software completely different from proprietary software.  Proprietary software carries one EULA which confers
 //many right to the copyright holder and none to the user.
-
-//To students in CPSC240:  This is my opinion.  I have studied the the available licenses for software especially the GPL,
-//the LGPL, and the Affero GPL.  This is what I have learned about the LGPL used with this function "isinteger".
-//   The section above the blank line is called the "copyright notice".
-//   The section below the blank line is called the "license notice".
-//   LGPL is for use on software typically found in software libraries.
-//   This LGPL license applies only to the specific function named in the license.
-//   This library may be used within another application covered by other licenses (or EULAs).
-//   This license requires that source code of this function be distributed with the application (even if other parts of the
-//       application are not required to be distributed with source code).
-//   This LGPL allows you to re-distribute the function (provided the original LGPL remains).
-//   This LGPL allows you to modify the function (provided the original LGPL remains).
-//   This LGPL allows you to distribute (or sell) your modified versions to anyone (provided the original LGPL remains). 
-//   When you distribute this software to other people a copy of the LGPL is suppose to accompany the source code in a 
-//       separate file.  If that separate file becomes lost (by human error) the license still has legal standing.
 //
 //References: 
 //   How to correctly place a software license in a source file: https://www.gnu.org/licenses/gpl-howto.html
@@ -44,8 +29,6 @@
 //if that online function is licensed by LGPL then Microsoft may legally incorporate the function into Minecraft, and 
 //Minecraft remains proprietary and wholly secret.  Do you see a major difference between the two kinds of licenses?
 
-//This opinion is included here for educational purposes in the course CPSC240.  You must remove this opinion statement 
-//when you use this library function in other application programs such as homework.
 //
 //
 //=======1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1=========2=========3**
