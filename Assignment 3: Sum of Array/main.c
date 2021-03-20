@@ -59,6 +59,6 @@ int main (int argc, char* argv[])
     result = _first();
     printf("The main has received this number %5.8lf and will keept it.\n", result);
     printf("Thank you for using High Speedy Array Software.\n");
-    printf("For system support contact Joe Miracat at chokwj@csu.fullerton.edu.\n");
+    printf("For system support contact Wesley Chok at chokwj@csu.fullerton.edu.\n");
     printf("A zero will be returned to the operating system.\n");
 }
