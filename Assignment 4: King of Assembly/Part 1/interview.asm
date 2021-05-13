@@ -16,8 +16,8 @@ section .data
      resistanceOutputPrompt db "The total resistance is %lf Ohms.",10,0
      majorPrompt db "Were you a computer science major (y or n)?",0
 
-     testPrompt db "This is the number: %5.3lf",10,0
-     ; testPrompt db "I'm alive and well, yes",10,0
+     testPrompt db "This is the number: %lf",10,0
+     testPrompted db "I'm alive and well, yes",10,0
 
 
      exitPrompt db 10,"Thank you.  Please follow the exit signs to the front desk.",10,0
@@ -168,6 +168,10 @@ _first:
      cmp rax, r15
      je programmer
 
+     mov r13, 'n'
+     cmp rax, r13
+     je noMajor
+
 
 
 
@@ -175,33 +179,53 @@ _first:
 
 
      programmer:
-     ; push qword 0
-     ; mov rax, 0
-     ; mov rdi, testPrompt
-     ; call printf
-     ; pop rax
-
-
      push qword 0
      mov rax, 0
      mov rdi, exitPrompt
      call printf
      pop rax
 
-     mov r14, 88000
-     cvtsi2sd xmm9, r14
-     mov r8, 88
-     cvtsi2sd xmm8, r8
-     mov r15, 100
-     cvtsi2sd xmm15, r15
+    ;  mov r14, 88000
+    ;  cvtsi2sd xmm9, r14
+    ;  mov r8, 88
+    ;  cvtsi2sd xmm8, r8
+    ;  mov r15, 100
+    ;  cvtsi2sd xmm15, r15
 
-     divsd xmm8, xmm15
+    ;  divsd xmm8, xmm15
 
-     addsd xmm9, xmm8
+    ;  addsd xmm9, xmm8
 
+    ;  movsd xmm0, xmm9
 
+    ;  push qword 0
+    ;  mov rax, 1
+    ;  mov rdi, testPrompt
+    ;  movsd xmm0, xmm9
+    ;  call printf
+    ;  pop rax
 
-     movsd xmm0, xmm9
+    ;  push qword 0
+    ;  mov rax, 0
+    ;  mov rdi, testPrompted
+    ;  call printf
+    ;  pop rax
+    ;  push rdx, 0x47abe071
+    ;  movsd xmm0, [rsp]
+    ;  movsd xmm0, xmm9
+     mov rax, 0x40F57C0E147AE148
+     movq xmm14, rax
+     jmp exit
+
+     noMajor:
+     push qword 0
+     mov rax, 0
+     mov rdi, exitPrompt
+     call printf
+     pop rax
+
+     mov rax, 0x4092C07AE147AE14
+     movq xmm14, rax
      jmp exit
 
      chris_sawyer:
@@ -210,6 +234,9 @@ _first:
      mov rdi, exitPrompt
      call printf
      pop rax
+
+     mov rax, 0x412E848000000000
+     movq xmm14, rax
      jmp exit
 
 
@@ -226,6 +253,9 @@ _first:
 
      exit:
      ;Restore the registers that were backed up and defined
+    ; movsd xmm0, xmm9
+     movsd xmm0, xmm14
+     pop rax
 
      popf                                                        ;Restoring rflags
      pop rbx                                                     ;Restoring rbx
@@ -242,5 +272,13 @@ _first:
      pop rsi                                                     ;Restoring rsi
      pop rdi                                                     ;Restoring rdi
      pop rbp                                                     ;Restoring rbp
+
+    ;  push qword 0
+    ;  mov rax, 1
+    ;  mov rdi, testPrompt
+    ;  movsd xmm0, xmm9
+    ;  call printf
+    ;  pop rax
+
 
      ret
