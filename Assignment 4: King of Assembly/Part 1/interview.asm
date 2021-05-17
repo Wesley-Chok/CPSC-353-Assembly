@@ -1,5 +1,5 @@
 ;****************************************************************************************************************************
-;Program name: "Assignment 4 King of Assembly".  This program demonstrates passing values from main to assembly file,       *
+;Program name: "King of Assembly".  This program demonstrates passing values from main to assembly file,       *
 ;calculating arithimetic functions in assembly file and using IEEE 754 conversions.                                         *
 ;Copyright (C) 2021 Wesley Chok                                                                                             *
 ;This file is part of the software program "King of Assembly".                                                              *
@@ -21,7 +21,7 @@
 ;  Author email: chokwj@csu.fullerton.edu
 ;
 ;Program information
-;  Program name: Assignment 4 King of Assembly
+;  Program name: King of Assembly
 ;  Programming languages: One modules in C++ and one modules assembly.
 ;  Date program began: 2021-April-26
 ;  Date of last update: 2021-May-12
@@ -36,21 +36,19 @@
 ;   File name: control.asm
 ;   Language: X86 with Intel syntax.
 ;   Max page width: 132 columns
-;   Assemble: nasm -f elf64 -l perimeter.lis -o interview.o interview.asm
+;   Assemble: nasm -f elf64 -l interview.lis -o interview.o interview.asm
 
 
 ;===== Begin code area ================================================================================================
 
 extern printf
 extern scanf
-extern atolong
-extern atof
 global _first
 
 
 section .data
      welcomePrompt db "Hello %s. I am Ms Fenster. The interview will begin now.",10,0
-     salaryPrompt db "Wow!  %5.3lf  That's a lot of cash. Who do you think you are, Chris Sawyer (y or n)?",0
+     salaryPrompt db "Wow!  %5.2lf  That's a lot of cash. Who do you think you are, Chris Sawyer (y or n)?",0
      stringFormat db "%s",0
      programmerPrompt db 10,"Alright.  Now we will work on your electricity",10,0
      resistanceOnePrompt db "Please enter the resistance of circuit #1 in ohms: ",10,0
