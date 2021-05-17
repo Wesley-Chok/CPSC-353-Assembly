@@ -1,5 +1,5 @@
 // ****************************************************************************************************************************
-// Program name: "Assignment 4 King of Assembly".  This program demonstrates passing values from main to assembly file,       *
+// Program name: "King of Assembly".  This program demonstrates passing values from main to assembly file,       *
 // calculating arithimetic functions in assembly file and using IEEE 754 conversions.                                         *
 // Copyright (C) 2021 Wesley Chok                                                                                             *
 // This file is part of the software program "King of Assembly".                                                              *
@@ -21,7 +21,7 @@
 //  Author email: chokwj@csu.fullerton.edu
 //
 // Program information
-//  Program name: Assignment 4 King of Assembly
+//  Program name: King of Assembly
 //  Programming languages: One modules in C++ and one modules assembly.
 //  Date program began: 2021-April-26
 //  Date of last update: 2021-May-12
